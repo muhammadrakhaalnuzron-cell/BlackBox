@@ -7,6 +7,17 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
         with: { distribution: temurin, java-version: 11 }
+      - name: Tambah repo
+        run: |
+          mkdir -p ~/.gradle/init.d
+          cat > ~/.gradle/init.d/repos.gradle <<'EOF'
+          allprojects {
+            repositories {
+              maven { url 'https://jitpack.io' }
+              jcenter()
+            }
+          }
+          EOF
       - run: chmod +x gradlew
       - run: ./gradlew assembleDebug --stacktrace
       - uses: actions/upload-artifact@v4
